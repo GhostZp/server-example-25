@@ -30,7 +30,7 @@ trim_trailing_whitespace = true
 
 # New line at the end of the file
 [*]
-insert_final_newline = true
+insert_final_newline = false
 
 # Maximum line length
 [*.{js,mjs,css,html}]
