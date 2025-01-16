@@ -1,7 +1,13 @@
-// week1
+import http from 'http';
+const hostname = '127.0.0.1';
+const port = 3000;
 
-const username = 'Matti';
+const server = http.createServer((req, res) => {
+  console.log('new http request');
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Welcome to my REST API!');
+});
 
-console.log('Hello ' + username);
-console.log('Hello ' + username);
-console.log('Hello ' + username);
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
