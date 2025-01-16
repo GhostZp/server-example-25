@@ -1,0 +1,5 @@
+# exclude all files/folders you don't want to add to version control
+.vscode
+node_modules
+.DS_Store
+
