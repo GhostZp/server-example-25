@@ -36,6 +36,17 @@ app.get('/api/sum/', (req, res) => {
   console.log(req.query);
   const num1 = parseInt(req.query.num1);
   const num2 = parseInt(req.query.num2);
+  // testataan jos jompikumpi luvuista ei ole numero niin lähetetään
+  // virhetilakoodi ja viesti json muodossa
+  if(isNaN(num1) || isNaN(num2)) {
+    res.status(400);
+    res.json({
+      num1,
+      num2,
+      error: 'Both parameters must be numbers!'
+    });
+    return;
+  }
   res.json({
     num1,
     num2,
@@ -46,8 +57,12 @@ app.get('/api/sum/', (req, res) => {
 //POST-pyynnön kösittely ja datan lukeminen pyynnön bodystä
 app.post('/api/moro', (req, res) => {
   console.log(req.body);
+  res.status(201);
   res.json({reply: 'No moro! ' + req.body.sender});
 });
+
+// TODO: lisää oma reitti ja toiminnallisuus omaa mielikuvitusta käyttäen!
+// ensimmäisen viikon harkka ok, palautus oma/github
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
