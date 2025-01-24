@@ -1,4 +1,5 @@
 import express from 'express';
+import { addItem, getItemById, getItems } from './items.js';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
@@ -18,6 +19,10 @@ app.get('/api/', (req, res) => {
   res.send('Welcome to my REST API!');
 });
 
+// item resurssien päätepisteet (endpoint)
+app.get('/api/items', getItems);
+app.get('/api/items/:id', getItemById);
+app.post('/api/items', addItem);
 
 // syötteen lukeminen reittiparametreista (route params)
 app.get('/api/sum/:num1/:num2', (req, res) => {
@@ -63,6 +68,28 @@ app.post('/api/moro', (req, res) => {
 
 // TODO: lisää oma reitti ja toiminnallisuus omaa mielikuvitusta käyttäen!
 // ensimmäisen viikon harkka ok, palautus oma/github
+
+app.get('/api/cat/', (req, res) => {
+  console.log(req.query);
+
+  function isCorrectNumber(query, target) {
+    return Number (query) === target;
+  }
+
+  const queryNumber = req.query.number;
+
+  if(!queryNumber || !isCorrectNumber(queryNumber, 10)) {
+    res.status(400).json({
+      error: 'Try number 10!'
+    });
+    return;
+  } else {
+    console.log('(=^･ω･^=)');
+    res.status(200).json ({
+      message: 'You guessed correctly!',
+    });
+  }
+});
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

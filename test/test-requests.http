@@ -1,14 +1,12 @@
-# ekat testit
+### EKAT TESTIT
 
 ### Palvelimen juuri
 GET http://localhost:3000
 
 ### morotesti
-
 GET http://localhost:3000/moro
 
 ### morotesti POST
-
 POST http://localhost:3000/api/moro
 content-type: application/json
 
@@ -16,3 +14,32 @@ content-type: application/json
     "sender": "Vanilla",
     "message": "testitervehdys"
 }
+
+
+### ITEMS
+
+### get all items
+GET http://localhost:3000/api/items
+
+### get item by ID
+GET http://localhost:3000/api/items/3
+
+
+### post items
+POST http://localhost:3000/api/items
+content-type: application/json
+
+{
+    "name": "Sitruuna"
+}
+
+
+### CAT
+
+### Get cat
+
+GET http://localhost:3000/api/cat?number=10
+
+### Get wrong
+
+GET http://localhost:3000/api/cat?number=5
