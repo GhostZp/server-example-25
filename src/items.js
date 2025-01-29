@@ -25,7 +25,7 @@ const getItemById = (req, res) => {
 };
 
 //itemien lisääminen
-const addItem = (req, res) => {
+const postItem = (req, res) => {
   console.log('addItem request body', req.body);
   // jos pyyntö sisältää name-ominaisuuden, lisätään uusi asia
   // items-taulukkoon
@@ -43,8 +43,41 @@ const addItem = (req, res) => {
   return res.json({message: 'Request is missing name property.'});
 };
 
-// TODO: put & delete endpoints
+const deleteItem = (req, res) => {
+  const index = items.findIndex(item => item.id == req.params.id);
+  if (index === -1) {
+    // example how to send only the status code (still valid http response)
+    return res.sendStatus(404);
+  }
+  const deletedItems = items.splice(index, 1);
+  console.log('deleteItem:', deletedItems);
+  res.json({deleted_item: deletedItems[0]});
+  // or successful response without any content
+  // res.sendStatus(204);
+};
+
+const putItem = (req, res) => {
+  const modifiedItems = items.map(obj => {
+    if (obj.id === 2) {
+      return { ...obj, name: "modify" };
+    }
+    return obj;
+  })
+  const index = items.findIndex(item => item.id == req.params.id);
+  // not found
+  if (index === -1) {
+    return res.sendStatus(404);
+  }
+  // bad request
+  if (!req.body.name) {
+    return res.status(400).json({error: "item name missing"});
+  }
+  items[index].name = req.body.name;
+  res.json({updated_item: items[index]});
+  console.log(modifiedItems);
+};
+
 // TODO: lisää users.js, ks. materiaali
 // TODO: Dummy kirjautuminen käyttäjä ja salasana
 
-export {getItems, getItemById, addItem};
+export {getItems, getItemById, postItem, deleteItem, putItem};

@@ -43,3 +43,31 @@ GET http://localhost:3000/api/cat?number=10
 ### Get wrong
 
 GET http://localhost:3000/api/cat?number=5
+
+
+### USERS
+
+### Get users
+GET http://127.0.0.1:3000/api/users
+
+### Get user by ID
+GET http://127.0.0.1:3000/api/users/2
+
+### Post user
+POST http://127.0.0.1:3000/api/users
+content-type: application/json
+
+{
+    "username": "Sitruuna",
+    "password": "Peruna",
+    "email": "Sitruuna.Peruna@mailmail.com"
+}
+
+### Post login
+POST http://127.0.0.1:3000/api/users/login
+content-type: application/json
+
+{
+    "username": "johndoe",
+    "password": "password1"
+}

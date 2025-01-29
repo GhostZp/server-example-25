@@ -1,5 +1,6 @@
 import express from 'express';
-import { addItem, getItemById, getItems } from './items.js';
+import { deleteItem, getItemById, getItems, postItem, putItem } from './items.js';
+import { getUserById, getUsers, postLogin, postUser, putUser } from './users.js';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
@@ -19,10 +20,29 @@ app.get('/api/', (req, res) => {
   res.send('Welcome to my REST API!');
 });
 
-// item resurssien päätepisteet (endpoint)
-app.get('/api/items', getItems);
-app.get('/api/items/:id', getItemById);
-app.post('/api/items', addItem);
+// RESOURCE /item endpoints
+// GET http://127.0.0.1:3000/items
+app.get('/items', getItems);
+// GET http://127.0.0.1:3000/items/<ID>
+app.get('/items/:id', getItemById);
+// POST http://127.0.0.1:3000/items/ (Itemin lisäys)
+app.post('/items', postItem);
+// DELETE (Itemin poisto)
+app.delete('/items/:id', deleteItem);
+// PUT
+app.put('/items/:id', putItem);
+
+// USERS /users endpoints
+// GET http://127.0.0.1:3000/api/users
+app.get('/api/users', getUsers);
+// GET http://127.0.0.1:3000/api/users/2
+app.get('/api/users/:id', getUserById);
+// POST http://127.0.0.1:3000/api/users
+app.post('/api/users', postUser);
+// POST http://127.0.0.1:3000/api/users/login
+app.post('/api/users/login', postLogin);
+// update user
+app.put('/api/users/:id', putUser);
 
 // syötteen lukeminen reittiparametreista (route params)
 app.get('/api/sum/:num1/:num2', (req, res) => {
@@ -65,9 +85,6 @@ app.post('/api/moro', (req, res) => {
   res.status(201);
   res.json({reply: 'No moro! ' + req.body.sender});
 });
-
-// TODO: lisää oma reitti ja toiminnallisuus omaa mielikuvitusta käyttäen!
-// ensimmäisen viikon harkka ok, palautus oma/github
 
 app.get('/api/cat/', (req, res) => {
   console.log(req.query);
