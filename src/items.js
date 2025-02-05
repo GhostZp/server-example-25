@@ -1,7 +1,7 @@
 // mock data for simple API (tilapäistä testidataa)
 const items = [
   {id: 1, name: 'Omena'},
-  {id: 2, name: 'Applesiini'},
+  {id: 2, name: 'Appelsiini'},
   {id: 3, name: 'Porkkana'},
   {id: 4, name: 'Mandariini'},
 ];
@@ -76,8 +76,5 @@ const putItem = (req, res) => {
   res.json({updated_item: items[index]});
   console.log(modifiedItems);
 };
-
-// TODO: lisää users.js, ks. materiaali
-// TODO: Dummy kirjautuminen käyttäjä ja salasana
 
 export {getItems, getItemById, postItem, deleteItem, putItem};

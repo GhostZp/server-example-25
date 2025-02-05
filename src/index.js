@@ -1,36 +1,38 @@
 import express from 'express';
 import { deleteItem, getItemById, getItems, postItem, putItem } from './items.js';
 import { getUserById, getUsers, postLogin, postUser, putUser } from './users.js';
+import cors from 'cors';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
 
+// tätä tarvitaan, jotta Ullan fronttiharjoitukset toimivat (Vite)
+// lisää myös: import cors from 'cors'; tiedoston yläosaan
+// ja asenna paketti: npm install cors
+app.use(cors());
+
 //staattinen html-sivusto tarjoillaan palvelimen juuressa
 app.use('/', express.static('public'));
-
 //middleware joka lukee json datan POST pyyntöjen rungosta (body)
 app.use(express.json());
-
-//end pointit/päätepisteet/reitti
 //rest-apin resurssit tarjoillaan /api/-polun alla
 app.get('/api/', (req, res) => {
   console.log('get-pyyntö juureen havaittuna');
-  console.log('req.headers');
   console.log(req.url);
   res.send('Welcome to my REST API!');
 });
 
 // RESOURCE /item endpoints
-// GET http://127.0.0.1:3000/items
-app.get('/items', getItems);
-// GET http://127.0.0.1:3000/items/<ID>
-app.get('/items/:id', getItemById);
+// GET http://127.0.0.1:3000/api/items
+app.get('/api/items', getItems);
+// GET http://127.0.0.1:3000/api/items/<ID>
+app.get('/api/items/:id', getItemById);
 // POST http://127.0.0.1:3000/items/ (Itemin lisäys)
-app.post('/items', postItem);
+app.post('/api/items', postItem);
 // DELETE (Itemin poisto)
-app.delete('/items/:id', deleteItem);
+app.delete('/api/items/:id', deleteItem);
 // PUT
-app.put('/items/:id', putItem);
+app.put('/api/items/:id', putItem);
 
 // USERS /users endpoints
 // GET http://127.0.0.1:3000/api/users

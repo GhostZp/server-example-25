@@ -24,6 +24,15 @@ GET http://localhost:3000/api/items
 ### get item by ID
 GET http://localhost:3000/api/items/3
 
+### put items
+PUT http://localhost:3000/api/items/3
+content-type: application/json
+
+{
+  "name": "new name for this item"
+}
+
+
 
 ### post items
 POST http://localhost:3000/api/items
@@ -52,6 +61,15 @@ GET http://127.0.0.1:3000/api/users
 
 ### Get user by ID
 GET http://127.0.0.1:3000/api/users/2
+
+### Put user
+PUT http://localhost:3000/api/users/3
+content-type: application/json
+
+{
+  "name": "new name for this item"
+}
+
 
 ### Post user
 POST http://127.0.0.1:3000/api/users
