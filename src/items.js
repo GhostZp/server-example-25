@@ -1,4 +1,4 @@
-// mock data for simple API (tilapäistä testidataa)
+// mock data (tilapäistä testidataa)
 const items = [
   {id: 1, name: 'Omena'},
   {id: 2, name: 'Appelsiini'},
@@ -6,33 +6,31 @@ const items = [
   {id: 4, name: 'Mandariini'},
 ];
 
-//kaikkien itemien haku
+// kaikkien itemien haku
 const getItems = (req, res) => {
   res.json(items);
 };
 
-// itemin haku ID:n perusteella
+// itemin haku id:n perusteella
 const getItemById = (req, res) => {
   console.log('getItemById', req.params.id);
   const item = items.find((item) => item.id == req.params.id);
-  console.log('item found: ', item);
-  // jos item löytyi eli arvo ei ole undefined
+  console.log('item found:', item);
+  // jos item löytyi, eli arvo ei ole undefined
   if (item) {
     res.json(item);
   } else {
-    res.status(404).json({message: 'Item not found.'});
+    res.status(404).json({message: 'Item not found'});
   }
 };
 
-//itemien lisääminen
-const postItem = (req, res) => {
+// itemin lisääminen
+const addItem = (req, res) => {
   console.log('addItem request body', req.body);
-  // jos pyyntö sisältää name-ominaisuuden, lisätään uusi asia
-  // items-taulukkoon
+  // jos pyyntö sisältää name-ominaisuuden, lisätään uusi asia items-taulukkoon
   if (req.body.name) {
-    // generoidaan ID numero uudelle asialle
-    // (yhtä suurempi kuin viimeisin)
-    const latestId = items[items.length-1].id
+    // generoidaan id-numero uudelle asialle (yhtä suurempi kuin viimeisin)
+    const latestId = items[items.length - 1].id;
     // luodaan uusi asia olio ja lisätään se items-taulukkoon
     const newItem = {id: latestId + 1, name: req.body.name};
     items.push(newItem);
@@ -43,38 +41,31 @@ const postItem = (req, res) => {
   return res.json({message: 'Request is missing name property.'});
 };
 
+// itemin muokkaus id:n perusteella
+const editItem = (req, res) => {
+  console.log('editItem request body', req.body);
+  const item = items.find((item) => item.id == req.params.id);
+  if (item) {
+    item.name = req.body.name;
+    res.json({message: 'Item updated.'});
+  } else {
+    res.status(404).json({message: 'Item not found'});
+  }
+};
+
+// itemin poisto id:n perusteella
 const deleteItem = (req, res) => {
-  const index = items.findIndex(item => item.id == req.params.id);
-  if (index === -1) {
-    // example how to send only the status code (still valid http response)
-    return res.sendStatus(404);
+  console.log('deleteItem', req.params.id);
+  const index = items.findIndex((item) => item.id == req.params.id);
+  //console.log('index', index);
+  // findIndex returns -1 if item is not found
+  if (index !== -1) {
+    // remove one item from array based on index
+    items.splice(index, 1);
+    res.json({message: 'Item deleted.'});
+  } else {
+    res.status(404).json({message: 'Item not found'});
   }
-  const deletedItems = items.splice(index, 1);
-  console.log('deleteItem:', deletedItems);
-  res.json({deleted_item: deletedItems[0]});
-  // or successful response without any content
-  // res.sendStatus(204);
 };
 
-const putItem = (req, res) => {
-  const modifiedItems = items.map(obj => {
-    if (obj.id === 2) {
-      return { ...obj, name: "modify" };
-    }
-    return obj;
-  })
-  const index = items.findIndex(item => item.id == req.params.id);
-  // not found
-  if (index === -1) {
-    return res.sendStatus(404);
-  }
-  // bad request
-  if (!req.body.name) {
-    return res.status(400).json({error: "item name missing"});
-  }
-  items[index].name = req.body.name;
-  res.json({updated_item: items[index]});
-  console.log(modifiedItems);
-};
-
-export {getItems, getItemById, postItem, deleteItem, putItem};
+export {getItems, getItemById, addItem, editItem, deleteItem};
