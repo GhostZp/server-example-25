@@ -55,7 +55,7 @@ const insertUser = async (user) => {
 };
 
 /**
- * NON-SAFE login
+ * UNSAFE login for clear text passwords
  * @param {*} username
  * @param {*} password
  * @returns
@@ -75,5 +75,63 @@ const selectUserByNameAndPassword = async (username, password) => {
   }
 };
 
+/**
+ * Fetch all user data based on user's username
+ * @param {*} username
+ * @returns {object} user data
+ */
+const selectUserByUsername = async (username) => {
+  try {
+    const [rows] = await promisePool.query(
+      'SELECT user_id, username, password, email, created_at, user_level FROM Users WHERE username=?',
+      [username],
+    );
+    console.log(rows);
+    // return only first item of the result array
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+    throw new Error('database error');
+  }
+};
 
-export {selectAllUsers, selectUserById, insertUser, selectUserByNameAndPassword};
+const updateUser = async (id, username, password, email) => {
+  try {
+    const [result] = await promisePool.query(
+      'UPDATE users SET username = ?, password = ?, email = ? WHERE user_id = ?',
+      [username, password, email, id] // Ensure all placeholders have values
+    );
+
+    console.log("Rows affected:", result.affectedRows);
+    return result; // Returning result object
+  } catch (error) {
+    console.error(error);
+    throw new Error('Database error');
+  }
+};
+
+const deleteUserById = async (id) => {
+  try {
+    const [result] = await promisePool.query (
+      'DELETE FROM users WHERE user_id = ?',
+      [id]
+    );
+
+    console.log("Rows affected:", result.affectedRows);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Database error');
+  }
+};
+
+
+export {
+  selectAllUsers,
+  selectUserById,
+  insertUser,
+  selectUserByNameAndPassword,
+  selectUserByUsername,
+  updateUser,
+  deleteUserById,
+};

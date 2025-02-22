@@ -1,30 +1,22 @@
-### EKAT TESTIT
+# Testing http requests with Visual Studio Code REST Client extension
 
-### Palvelimen juuri
-GET http://localhost:3000
-
-### morotesti
-GET http://localhost:3000/moro
-
-### morotesti POST
-POST http://localhost:3000/api/moro
-content-type: application/json
-
-{
-    "sender": "Vanilla",
-    "message": "testitervehdys"
-}
-
-
-### ITEMS
+## Items (test resource/endpoints using hard-coded mock data)
 
 ### get all items
 GET http://localhost:3000/api/items
 
-### get item by ID
+### get item by id
 GET http://localhost:3000/api/items/3
 
-### put items
+### post a new item
+POST http://localhost:3000/api/items
+content-type: application/json
+
+{
+  "name": "Sitruuna"
+}
+
+### modify an existing item (by using item's id as a parameter in url)
 PUT http://localhost:3000/api/items/3
 content-type: application/json
 
@@ -32,60 +24,108 @@ content-type: application/json
   "name": "new name for this item"
 }
 
+### delete an item (by id)
+DELETE http://localhost:3000/api/items/3
 
 
-### post items
-POST http://localhost:3000/api/items
+###########################
+## Users resource endpoints
+
+### get all users
+GET http://localhost:3000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6Im5ld3VzZXJuYW1lMiIsInBhc3N3b3JkIjoiJDJhJDEwJGtscUN2Qno5cE9kZFFpbDYxTG9mT3V6U1I3RjhsdGpSek1yQUlGb0xnblIyOEJITzh3bzdPIiwiZW1haWwiOiJuZXdlbWFpbDJAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNS0wMi0xN1QxMToxMDo1NC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3Mzk5NjEyNjEsImV4cCI6MTc0MDA0NzY2MX0.-v9rQBxZPvDRs3SapqgBQts8W-YtVcYPFJytSg4ReZA
+
+### get user by id
+GET http://localhost:3000/api/users/3
+
+### create a new user (user registration)
+POST http://localhost:3000/api/users
 content-type: application/json
 
 {
-    "name": "Sitruuna"
+  "username": "newusername2",
+  "password": "passwordx",
+  "email": "newemail2@example.com"
 }
 
-
-### CAT
-
-### Get cat
-
-GET http://localhost:3000/api/cat?number=10
-
-### Get wrong
-
-GET http://localhost:3000/api/cat?number=5
-
-
-### USERS
-
-### Get users
-GET http://127.0.0.1:3000/api/users
-
-### Get user by ID
-GET http://127.0.0.1:3000/api/users/2
-
-### Put user
+### modify an existing user by id
 PUT http://localhost:3000/api/users/3
 content-type: application/json
 
 {
-  "name": "new name for this item"
+  "username": "editedname",
+  "password": "editedpasswordx",
+  "email": "editedmail@example.com"
 }
 
+### delete a user (by id)
+DELETE http://localhost:3000/api/users/3
 
-### Post user
-POST http://127.0.0.1:3000/api/users
+### user login
+POST http://localhost:3000/api/auth/login
 content-type: application/json
 
 {
-    "username": "Sitruuna",
-    "password": "Peruna",
-    "email": "Sitruuna.Peruna@mailmail.com"
+  "username": "editedname420",
+  "password": "editedpasswordx420"
 }
 
-### Post login
-POST http://127.0.0.1:3000/api/users/login
+### USER INFO
+
+### get my user info
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6ImVkaXRlZG5hbWU0MjAiLCJwYXNzd29yZCI6IiQyYSQxMCQza0ZBeHdNQ1FNdXhsUjdhR2RYS3QualhqM0U3enpBSmxuME03VTlveVFaWWd0a3ZZcEdLYSIsImVtYWlsIjoiZWRpdGVkbWFpbDQyMEBleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI1LTAyLTE3VDExOjEwOjU0LjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTczOTk3MDYyMiwiZXhwIjoxNzQwMDU3MDIyfQ.VY33RT_MmRUwxxLw8bAXglkniOn2bcBbPgP7fEC-unI
+
+### Edit user info
+PUT http://localhost:3000/api/users/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6Im5ld3VzZXJuYW1lMiIsInBhc3N3b3JkIjoiJDJhJDEwJGtscUN2Qno5cE9kZFFpbDYxTG9mT3V6U1I3RjhsdGpSek1yQUlGb0xnblIyOEJITzh3bzdPIiwiZW1haWwiOiJuZXdlbWFpbDJAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNS0wMi0xN1QxMToxMDo1NC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3Mzk5NjEyNjEsImV4cCI6MTc0MDA0NzY2MX0.-v9rQBxZPvDRs3SapqgBQts8W-YtVcYPFJytSg4ReZA
 content-type: application/json
 
 {
-    "username": "johndoe",
-    "password": "password1"
+  "username": "editedname420",
+  "password": "editedpasswordx420",
+  "email": "editedmail420@example.com"
 }
+
+### DELETE a user by id
+DELETE http://localhost:3000/api/users/7
+
+### USER ENTRIES
+
+### post a new entry
+POST http://localhost:3000/api/entries
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6ImVkaXRlZG5hbWU0MjAiLCJwYXNzd29yZCI6IiQyYSQxMCQza0ZBeHdNQ1FNdXhsUjdhR2RYS3QualhqM0U3enpBSmxuME03VTlveVFaWWd0a3ZZcEdLYSIsImVtYWlsIjoiZWRpdGVkbWFpbDQyMEBleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI1LTAyLTE3VDExOjEwOjU0LjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTc0MDIxMjc5NiwiZXhwIjoxNzQwMjk5MTk2fQ.9i9oGexaCBn24vwG4evdb7oywkC7s7jSYW0bXuw_8d4
+content-type: application/json
+
+{
+ "entry_date": "2025-04-13",
+ "mood": "sad",
+ "weight": 70,
+ "sleep_hours": 4,
+ "notes": "nyt loppu testi"
+}
+
+### Get user entries
+GET http://localhost:3000/api/entries
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6ImVkaXRlZG5hbWU0MjAiLCJwYXNzd29yZCI6IiQyYSQxMCQza0ZBeHdNQ1FNdXhsUjdhR2RYS3QualhqM0U3enpBSmxuME03VTlveVFaWWd0a3ZZcEdLYSIsImVtYWlsIjoiZWRpdGVkbWFpbDQyMEBleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI1LTAyLTE3VDExOjEwOjU0LjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTc0MDIxMjc5NiwiZXhwIjoxNzQwMjk5MTk2fQ.9i9oGexaCBn24vwG4evdb7oywkC7s7jSYW0bXuw_8d4
+
+
+### GET entry by entry id
+GET http://localhost:3000/api/entries/13
+
+
+### Edit user entry
+PUT http://localhost:3000/api/entries/13
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6ImVkaXRlZG5hbWU0MjAiLCJwYXNzd29yZCI6IiQyYSQxMCQza0ZBeHdNQ1FNdXhsUjdhR2RYS3QualhqM0U3enpBSmxuME03VTlveVFaWWd0a3ZZcEdLYSIsImVtYWlsIjoiZWRpdGVkbWFpbDQyMEBleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI1LTAyLTE3VDExOjEwOjU0LjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTc0MDIxMjc5NiwiZXhwIjoxNzQwMjk5MTk2fQ.9i9oGexaCBn24vwG4evdb7oywkC7s7jSYW0bXuw_8d4
+content-type: application/json
+
+{
+ "mood": "sittenkin ok",
+ "weight": 70,
+ "sleep_hours": 6,
+ "notes": "editoidaan"
+}
+
+
+### Delete an entry by entry id
+DELETE http://localhost:3000/api/entries/13
