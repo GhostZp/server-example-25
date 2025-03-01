@@ -40,7 +40,7 @@ const selectUserById = async (userId) => {
  * @returns
  */
 const insertUser = async (user) => {
-  try {
+  // try {
     const [result] = await promisePool.query(
       'INSERT INTO Users (username, password, email) VALUES (?, ?, ?)',
       [user.username, user.password, user.email],
@@ -48,10 +48,10 @@ const insertUser = async (user) => {
     console.log('insertUser', result);
     // return only first item of the result array
     return result.insertId;
-  } catch (error) {
-    console.error(error);
-    throw new Error('database error');
-  }
+  // } catch (error) {
+  //   console.error(error);
+  //   throw new Error('database error');
+  // }
 };
 
 /**
@@ -95,43 +95,10 @@ const selectUserByUsername = async (username) => {
   }
 };
 
-const updateUser = async (id, username, password, email) => {
-  try {
-    const [result] = await promisePool.query(
-      'UPDATE users SET username = ?, password = ?, email = ? WHERE user_id = ?',
-      [username, password, email, id] // Ensure all placeholders have values
-    );
-
-    console.log("Rows affected:", result.affectedRows);
-    return result; // Returning result object
-  } catch (error) {
-    console.error(error);
-    throw new Error('Database error');
-  }
-};
-
-const deleteUserById = async (id) => {
-  try {
-    const [result] = await promisePool.query (
-      'DELETE FROM users WHERE user_id = ?',
-      [id]
-    );
-
-    console.log("Rows affected:", result.affectedRows);
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Database error');
-  }
-};
-
-
 export {
   selectAllUsers,
   selectUserById,
   insertUser,
   selectUserByNameAndPassword,
   selectUserByUsername,
-  updateUser,
-  deleteUserById,
 };
